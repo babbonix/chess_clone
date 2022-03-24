@@ -1,0 +1,87 @@
+#board {
+    margin: auto;
+    width: 640px;
+    height: 639.5px;
+    display: flex;
+    flex-direction: column;
+    border: solid black 1px;
+}
+
+.board-row {
+    width: 640px;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+}
+
+.checker-div {
+    background-color: aqua;
+    height: 80px;
+    width: 80px;
+}
+
+
+
+
+#actions-panel {
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    width: 400px;
+    height: 640px;
+    border: solid black 1px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#connection-row {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 10px 10px 30px;
+    /*border: solid red 1px;*/
+}
+
+#room-input {
+    margin: auto;
+    width: 200px;
+}
+
+
+
+
+#activity-log {
+    position: absolute;
+    left: 1115px;
+    top: 10px;
+    width: 400px;
+    height: 640px;
+    border: solid black 1px;
+    border-radius: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.button {
+    height: 20px;
+    margin: auto;
+}
+
+.text {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-variant: small-caps;
+}
+
+
+
