@@ -1,3 +1,8 @@
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-variant: small-caps;
+}
+
 #board {
     margin: auto;
     width: 640px;
@@ -15,10 +20,15 @@
 }
 
 .checker-div {
-    background-color: aqua;
     height: 80px;
     width: 80px;
 }
+
+.hidden {
+    display: none;
+}
+
+
 
 
 
@@ -42,7 +52,29 @@
     /*border: solid red 1px;*/
 }
 
+#username-row {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 10px 10px 30px;
+    /*border: solid red 1px;*/
+}
+
 #room-input {
+    margin: auto;
+    width: 200px;
+}
+
+#room-input-text {
+    margin: auto;
+    width: 200px;
+}
+
+#username-input {
+    margin: auto;
+    width: 200px;
+}
+
+#username-input-text {
     margin: auto;
     width: 200px;
 }
@@ -78,10 +110,6 @@
     margin: auto;
 }
 
-.text {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-variant: small-caps;
-}
 
 
 
