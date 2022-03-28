@@ -14,7 +14,6 @@ const socket = io('http://192.168.1.94:3000', {
 
 
 
-
 const root = document.getElementById('root');
 
 const size = 80;
@@ -103,41 +102,6 @@ function initializeBoard() {
     boardMatrix[0][4] = new Piece('queen', 'white', 0, 4);
     boardMatrix[7][4] = new Piece('queen', 'black', 7, 4);
     
-
-    //Old, just setting names, the code above actually creates each piece object.
-    /*
-    //Set pawns
-    for(let i = 0; i < 8; i++){
-        boardMatrix[1][i] = "my-pawn";
-        boardMatrix[6][i] = "enemy-pawn";
-    }
-
-    //Set Rooks
-    boardMatrix[0][0] = "my-rook";
-    boardMatrix[0][7] = "my-rook";
-    boardMatrix[7][0] = "enemy-rook";
-    boardMatrix[7][7] = "enemy-rook";
-
-    //Set Knights
-    boardMatrix[0][1] = "my-knight";
-    boardMatrix[0][6] = "my-knight";
-    boardMatrix[7][1] = "enemy-knight";
-    boardMatrix[7][6] = "enemy-knight";
-
-    //Set Bishops
-    boardMatrix[0][2] = "my-bishop";
-    boardMatrix[0][5] = "my-bishop";
-    boardMatrix[7][2] = "enemy-bishop";
-    boardMatrix[7][5] = "enemy-bishop";
-
-    //Set Kings
-    boardMatrix[0][3] = "my-king";
-    boardMatrix[7][3] = "enemy-king";
-
-    //Set Queens
-    boardMatrix[0][4] = "my-queen";
-    boardMatrix[7][4] = "enemy-queen";
-    */
 }
 
 function drawBoard(){
@@ -154,15 +118,19 @@ function drawBoard(){
         //Create Checkers
         for(let j = 0; j < 8; j++){
             let newDiv = document.createElement('div');
+            let divColor = checkerColor();
             newDiv.setAttribute('class', 'checker-div');
             newDiv.setAttribute('data-y', 8-i-1);
             newDiv.setAttribute('data-x', j);
+            newDiv.setAttribute('data-selected', false);
+            newDiv.setAttribute('data-color', divColor);
             newDiv.setAttribute('style', `
-                background-color: ${checkerColor()};
+                background-color: ${divColor};
             `)
             newDiv.addEventListener('click', () => {
                 //socket.emit();
                 console.log(newDiv.dataset);
+                selectedPiece(newDiv);
             });
             boardRow.appendChild(newDiv);
         }
@@ -186,29 +154,33 @@ function createConnectionPanel(aP){
     const connectionRow = document.createElement('div');
     connectionRow.setAttribute('id', 'connection-row');
     aP.appendChild(connectionRow);
+
+    //Div that holds Text and Button
+    const holder = document.createElement('div');
     
     //'Room:' Text
     const roomText = document.createElement('p');
     const roomText_text = document.createTextNode('Room:');
     roomText.append(roomText_text);
-    connectionRow.appendChild(roomText);
+    holder.appendChild(roomText);
     //Room input text
     const roomInputText = document.createElement('p');
     roomInputText.setAttribute('id', 'room-input-text');
     roomInputText.setAttribute('class', 'hidden');
-    connectionRow.appendChild(roomInputText);
 
     //Input Box
     const roomInput = document.createElement('input');
     roomInput.setAttribute('id', 'room-input');
-    connectionRow.appendChild(roomInput);
 
     //Join/Quit Button
     const roomInputButton = document.createElement('button');
     const roomInputButton_text = document.createTextNode('JOIN');
     roomInputButton.append(roomInputButton_text);
     roomInputButton.setAttribute('class', 'button');
-    connectionRow.appendChild(roomInputButton);
+    holder.appendChild(roomInputButton);
+    connectionRow.appendChild(holder);
+    connectionRow.appendChild(roomInput);
+    connectionRow.appendChild(roomInputText);
 
     //Join or Quit Room
     roomInputButton.onclick = () => {
@@ -241,29 +213,33 @@ function createUsernamePanel(aP){
     const usernameRow = document.createElement('div');
     usernameRow.setAttribute('id', 'username-row');
     aP.appendChild(usernameRow);
+
+    //Div that holds Text and Button
+    const holder = document.createElement('div');
     
     //'Username:' Text
     const usernameText = document.createElement('p');
     const usernameText_text = document.createTextNode('User:');
     usernameText.append(usernameText_text);
-    usernameRow.appendChild(usernameText);
+    holder.appendChild(usernameText);
     //Username input text
     const usernameInputText = document.createElement('p');
     usernameInputText.setAttribute('id', 'username-input-text');
     usernameInputText.setAttribute('class', 'hidden');
-    usernameRow.appendChild(usernameInputText);
 
     //Input Box
     const usernameInput = document.createElement('input');
     usernameInput.setAttribute('id', 'username-input');
-    usernameRow.appendChild(usernameInput);
 
     //Join/Quit Button
     const usernameInputButton = document.createElement('button');
     const usernameInputButton_text = document.createTextNode('SET');
     usernameInputButton.append(usernameInputButton_text);
     usernameInputButton.setAttribute('class', 'button');
-    usernameRow.appendChild(usernameInputButton);
+    holder.appendChild(usernameInputButton);
+    usernameRow.appendChild(holder);
+    usernameRow.appendChild(usernameInput);
+    usernameRow.appendChild(usernameInputText);
 
     //Set Username
     usernameInputButton.onclick = () => {
@@ -337,6 +313,20 @@ function getChecker(_y, _x) {
     }
 }
 
+function selectedPiece(checker) {
+    if(checker.dataset.selected != 'true'){
+        console.log(checker.dataset.selected);
+        checker.dataset.selected = 'true';
+        checker.setAttribute('style', 'background-color: red;');
+        console.log(checker.dataset.selected);
+    } else {
+        console.log(checker.dataset.selected);
+        checker.dataset.selected = 'false';
+        checker.setAttribute('style', `background-color: ${checker.dataset.color};`);
+        console.log(checker.dataset.selected);
+    }
+}
+
 function drawPiece(_type, _player, _y, _x){
     //Get the target checker object
     let targetChecker = getChecker(_y, _x);
@@ -352,15 +342,16 @@ function drawPiece(_type, _player, _y, _x){
         var textColor = 'white';
     }
     piece.setAttribute('style', `
-        width: 29px;
-        height: 29px;
-        margin-left: 24px;
-        margin-top: 24px;
+        width: 40%;
+        height: 40%;
         background-color: ${bgColor};
         border: solid ${textColor} 2px;
         text-align: center;
         border-radius: 50%;
         color: ${textColor};
+        display: flex;
+        align-items: center;
+        justify-content: center;
     `)
 
     //Set Letter to identify the type of piece
@@ -389,7 +380,14 @@ function drawPiece(_type, _player, _y, _x){
     }
     let textNode = document.createTextNode(pieceLetter);
     let text = document.createElement('p');
-    text.setAttribute('style', 'margin-top: 5px;')
+    text.setAttribute('class', 'letter-type')
+
+    /*
+    //Add click event to the piece
+    piece.addEventListener('click', function() {
+        console.log(this.parentElement.dataset);
+    });
+    */
 
     //Append textNote to text, text to piece and piece to checker
     text.append(textNode);
@@ -405,8 +403,8 @@ function drawPiece(_type, _player, _y, _x){
 
 //CODE----------------------------------------------------------
 
-drawBoard();
 createActionsPanel();
+drawBoard();
 createActivityLog();
 
 initializeBoard();

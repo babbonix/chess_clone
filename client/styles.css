@@ -3,25 +3,41 @@
     font-variant: small-caps;
 }
 
+body {
+    background-color: blanchedalmond;
+}
+
+#root {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
 #board {
-    margin: auto;
-    width: 640px;
-    height: 639.5px;
+    flex-shrink: 0;
+    margin-top: 10px;
+    width: 80vh;
+    height: 80vh;
     display: flex;
     flex-direction: column;
     border: solid black 1px;
+    order: 2;
 }
 
 .board-row {
-    width: 640px;
-    height: 80px;
+    width: 100%;
+    height: 12.5%;
     display: flex;
     flex-direction: row;
 }
 
 .checker-div {
-    height: 80px;
-    width: 80px;
+    height: 100%;
+    width: 12.5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .hidden {
@@ -32,68 +48,88 @@
 
 
 
+.letter-type {
+    font-size: 1rem;
+}
+
+
+
+
 
 #actions-panel {
-    position: absolute;
-    left: 20px;
-    top: 10px;
-    width: 400px;
-    height: 640px;
+    margin-left: 2vw;
+    margin-right: 2vw;
+    margin-top: 2vh;
+    width: 22vw;
+    height: 90vh;
     border: solid black 1px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    order: 1;
+    flex-shrink: 0;
+    min-height: 80px;
+    min-width: 230px;
+}
+
+#activity-log {
+    margin-left: 2vw;
+    margin-right: 2vw;
+    margin-top: 2vh;
+    width: 22vw;
+    height: 90vh;
+    border: solid black 1px;
+    border-radius: 10px;
+    order: 4;
+    flex-shrink: 0;
+    min-height: 80px;
+    min-width: 230px;
 }
 
 #connection-row {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#connection-row>div {
     display: flex;
     flex-direction: row;
-    padding: 10px 10px 10px 30px;
-    /*border: solid red 1px;*/
+    align-items: center;
 }
 
 #username-row {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#username-row>div {
     display: flex;
     flex-direction: row;
-    padding: 10px 10px 10px 30px;
-    /*border: solid red 1px;*/
+    align-items: center;
+    justify-content: center;
 }
 
 #room-input {
-    margin: auto;
-    width: 200px;
+    width: 80%;
 }
 
 #room-input-text {
-    margin: auto;
-    width: 200px;
+    width: 80%;
 }
 
 #username-input {
-    margin: auto;
-    width: 200px;
+    width: 80%;
 }
 
 #username-input-text {
-    margin: auto;
-    width: 200px;
+    width: 80%;
 }
-
-
-
-
-#activity-log {
-    position: absolute;
-    left: 1115px;
-    top: 10px;
-    width: 400px;
-    height: 640px;
-    border: solid black 1px;
-    border-radius: 10px;
-}
-
-
-
 
 
 
@@ -112,4 +148,60 @@
 
 
 
+@media screen and (max-width: 1000px) {
+
+    #activity-log {
+        width: 80vw;
+        height: 20vw;
+    }
+
+    #actions-panel {
+        order: 3;
+        width: 80vw;
+        height: 20vw;
+    }
+
+    #root {
+        flex-direction: column;
+    }
+
+    #room-input {
+        width: 40%;
+    }
+    
+    #room-input-text {
+        width: 40%;
+    }
+    
+    #username-input {
+        width: 40%;
+    }
+    
+    #username-input-text {
+        width: 40%;
+    }
+
+} 
+
+
+@media screen and (max-width: 800px) {
+
+    #actions-panel {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+} 
+
+@media (orientation: portrait) {
+    #board {
+        margin-top: 10px;
+        width: 80vw;
+        height: 80vw;
+        display: flex;
+        flex-direction: column;
+        border: solid black 1px;
+    }
+
+}
 
